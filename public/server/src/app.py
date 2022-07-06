@@ -22,6 +22,8 @@ def user_info():
             
 
 if __name__=="__main__":
-   app.run(host="0.0.0.0", port="5000", debug=True)
+   app.run(host="0.0.0.0", port="5000")
    # host 등을 직접 지정하고 싶다면
    # app.run(host="127.0.0.1", port="5000", debug=True)
+
+# 우분투 서버 테스트용 주석
