@@ -28,10 +28,10 @@
 </head>
 
 <body>
-    <div id="DB_TEST"></div>
+    <div id="DB_TEST" style="font-size:3em"></div>
     <script>
         const db = firebase.firestore();
-        db.collection("테스트").doc("PPfK8GlJkxdQOqFaF1EE").get().then((result) => {
+        db.collection("테스트").doc("PPfK8GlJkxdQOqFaF1EE").onSnapshot((result) => {
             $("#DB_TEST").html(result.data().테스트필드);
         })
     </script>
