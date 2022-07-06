@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+        integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/user_info.css') }}">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="content">
+        <p style="text-align:center;margin-top:5%;font-size:2em">유저정보</p>
+    </div>
+
+    <script>
+        data = `{{user}}`.slice(1, -1);
+        data = data.replaceAll("&gt;", ">");
+        data = data.replaceAll("&lt;", "<");
+        data = data.replaceAll("&#34;", "'");
+        $("#content").append(data);
+
+        $(".character-frame").attr("src", "../static/img/character_card_img/캐릭터_프레임.png");
+        $(".character-background").attr("src", "../static/img/character_card_img/캐릭터_프레임_배경.png");
+
+        const world = $("li.character-card-summary-item").find("span").html();
+        $("li.character-card-summary-item").find("img").attr("src", "../static/img/world_img/" + world + ".gif");
+
+        $(".character-card-effect").attr("src", "../static/img/character_card_img/카드_이펙트.png");
+    </script>
+</body>
+
+</html>
