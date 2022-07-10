@@ -23,6 +23,10 @@ def user_info():
 @app.route("/DB_test")
 def DB_test():
       return render_template('DB_test.html')
+
+@app.route("/damage_skin_simulator")
+def damage_skin_simulator():
+      return render_template('damage_skin_simulator.html')
             
 
 if __name__=="__main__":

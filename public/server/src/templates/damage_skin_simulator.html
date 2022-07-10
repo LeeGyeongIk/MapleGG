@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+        integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        #content {
+            width: 500px;
+            height: 500px;
+            position: relative;
+            margin: 0 auto;
+            margin-top: 5%;
+            text-align: center;
+        }
+
+        .damage {
+            width: 100%;
+            position: absolute;
+            animation: damage 2s forwards;
+        }
+
+        @keyframes damage {
+            from {
+                opacity: 1;
+                left: 0;
+                bottom: 40%;
+            }
+
+            to {
+                opacity: 0;
+                left: 0;
+                bottom: 70%;
+            }
+        }
+    </style>
+
+    <div id="content">
+        <h1>핑크빈 쳐보던가</h1>
+        <img onclick="click_damage_btn(btn_count)" src="../static/img/damage_measurement/핑크빈.png" style="margin-top:50%;
+        cursor:pointer;
+        outline:none;
+        -webkit-tap-highlight-color : rgba(0,0,0,0);">
+    </div>
+
+    <script>
+        var btn_count = 0;
+
+        function click_damage_btn() {
+            const max_damage = 10000000000;
+            const min_damage = 0;
+            const damage = Math.floor(Math.random() * (max_damage - min_damage + 1) + min_damage);
+            const damage_str = damage.toString();
+            const templete_head = `<div class="damage" id="damage_${btn_count}">`;
+            const templete_tail = `</div>`;
+            let templete_body = ``;
+            let btn_count_clone = btn_count;
+
+            for (var i = 0; i < damage_str.length; i++) {
+                templete_body += `<img src="../static/img/damage_skin/기본데미지스킨/크리티컬x/기본데미지_크리티컬x_${damage_str[i]}.png" class="damage_img">`
+            }
+
+            let damage_object = templete_head + templete_body + templete_tail;
+
+            $("#content").append(damage_object);
+            for (var i = 1; i < damage_str.length; i++) {
+                $(".damage_img").attr("style", "margin-left: -10px");
+            }
+
+            btn_count++;
+            remove_damage_object(btn_count_clone)
+        }
+
+        function remove_damage_object(btn_count_clone) {   // 3초 뒤 엘리먼트 삭제
+            setTimeout(function () {	// 인스턴스 함수로 설정
+                $("#damage_" + btn_count_clone.toString()).remove();
+            }, 2000)	// 시간 설정
+        }
+    </script>
+</body>
+
+</html>
