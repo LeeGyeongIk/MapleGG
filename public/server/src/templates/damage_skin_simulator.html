@@ -12,22 +12,150 @@
 
 <body>
     <style>
+        :root {
+            --animation-delay: 2s forwards;
+        }
+
         #content {
             width: 500px;
-            height: 500px;
+            height: fit-content;
             position: relative;
             margin: 0 auto;
             margin-top: 5%;
             text-align: center;
         }
 
-        .damage {
+        .damage1 {
             width: 100%;
             position: absolute;
-            animation: damage 2s forwards;
+            animation: damage1 var(--animation-delay);
         }
 
-        @keyframes damage {
+        .damage2 {
+            width: 100%;
+            position: absolute;
+            animation: damage2 var(--animation-delay);
+        }
+
+        .damage3 {
+            width: 100%;
+            position: absolute;
+            animation: damage3 var(--animation-delay);
+        }
+
+        .damage4 {
+            width: 100%;
+            position: absolute;
+            animation: damage4 var(--animation-delay);
+        }
+
+        .damage5 {
+            width: 100%;
+            position: absolute;
+            animation: damage5 var(--animation-delay);
+        }
+
+        .damage6 {
+            width: 100%;
+            position: absolute;
+            animation: damage6 var(--animation-delay);
+        }
+
+        .damage7 {
+            width: 100%;
+            position: absolute;
+            animation: damage7 var(--animation-delay);
+        }
+
+        .damage8 {
+            width: 100%;
+            position: absolute;
+            animation: damage8 var(--animation-delay);
+        }
+
+        .damage9 {
+            width: 100%;
+            position: absolute;
+            animation: damage9 var(--animation-delay);
+        }
+
+        .damage10 {
+            width: 100%;
+            position: absolute;
+            animation: damage10 var(--animation-delay);
+        }
+
+        @keyframes damage1 {
+            from {
+                opacity: 1;
+                left: 0;
+                bottom: 20%;
+            }
+
+            to {
+                opacity: 0;
+                left: 0;
+                bottom: 24%;
+            }
+        }
+
+        @keyframes damage2 {
+            from {
+                opacity: 1;
+                left: 0;
+                bottom: 24%;
+            }
+
+            to {
+                opacity: 0;
+                left: 0;
+                bottom: 28%;
+            }
+        }
+
+        @keyframes damage3 {
+            from {
+                opacity: 1;
+                left: 0;
+                bottom: 28%;
+            }
+
+            to {
+                opacity: 0;
+                left: 0;
+                bottom: 32%;
+            }
+        }
+
+        @keyframes damage4 {
+            from {
+                opacity: 1;
+                left: 0;
+                bottom: 32%;
+            }
+
+            to {
+                opacity: 0;
+                left: 0;
+                bottom: 36%;
+            }
+        }
+
+        @keyframes damage5 {
+            from {
+                opacity: 1;
+                left: 0;
+                bottom: 36%;
+            }
+
+            to {
+                opacity: 0;
+                left: 0;
+                bottom: 40%;
+            }
+        }
+
+        @keyframes damage6 {
             from {
                 opacity: 1;
                 left: 0;
@@ -37,51 +165,132 @@
             to {
                 opacity: 0;
                 left: 0;
-                bottom: 70%;
+                bottom: 44%;
+            }
+        }
+
+        @keyframes damage7 {
+            from {
+                opacity: 1;
+                left: 0;
+                bottom: 44%;
+            }
+
+            to {
+                opacity: 0;
+                left: 0;
+                bottom: 48%;
+            }
+        }
+
+        @keyframes damage8 {
+            from {
+                opacity: 1;
+                left: 0;
+                bottom: 48%;
+            }
+
+            to {
+                opacity: 0;
+                left: 0;
+                bottom: 52%;
+            }
+        }
+
+        @keyframes damage9 {
+            from {
+                opacity: 1;
+                left: 0;
+                bottom: 52%;
+            }
+
+            to {
+                opacity: 0;
+                left: 0;
+                bottom: 56%;
+            }
+        }
+
+        @keyframes damage10 {
+            from {
+                opacity: 1;
+                left: 0;
+                bottom: 56%;
+            }
+
+            to {
+                opacity: 0;
+                left: 0;
+                bottom: 60%;
             }
         }
     </style>
 
     <div id="content">
         <h1>핑크빈 쳐보던가</h1>
-        <img onclick="click_damage_btn(btn_count)" src="../static/img/damage_measurement/핑크빈.png" style="margin-top:50%;
+        <img onclick="click_damage_btn(btn_count)" src="../static/img/damage_measurement/핑크빈.png" style="margin-top:100%;
         cursor:pointer;
         outline:none;
         -webkit-tap-highlight-color : rgba(0,0,0,0);">
     </div>
 
     <script>
-        var btn_count = 0;
+        let btn_count = 0;
+        let damage_combo = 10;
 
         function click_damage_btn() {
+            const templete_head = `<div class="damage damage_${btn_count}">`;
+            const templete_tail = `</div>`;
+            const damage_arr = new Array();
+            let btn_count_clone = btn_count;
+            for (var i = 0; i < damage_combo; i++) {
+                damage_arr.push(create_damage_object(i));
+            }
+
+            for (var i = 0; i < damage_combo; i++) {
+                if (i != 0) {
+                    (function (x) {
+                        setTimeout(function () {	// 인스턴스 함수로 설정
+                            damage_object = templete_head + damage_arr[x] + templete_tail;
+                            $("#content").append(damage_object);
+                            $(".damage_img").attr("style", "margin-left: -10px");
+                        }, 100 * x);
+                    })(i);	// 시간 설정
+                } else {
+                    damage_object = templete_head + damage_arr[i] + templete_tail;
+                    $("#content").append(damage_object);
+                    $(".damage_img").attr("style", "margin-left: -10px");
+                }
+            }
+
+            remove_damage_object(btn_count_clone)
+            btn_count++;
+        }
+
+        function create_damage_object(damage_iterator) {
             const max_damage = 10000000000;
             const min_damage = 0;
             const damage = Math.floor(Math.random() * (max_damage - min_damage + 1) + min_damage);
             const damage_str = damage.toString();
-            const templete_head = `<div class="damage" id="damage_${btn_count}">`;
-            const templete_tail = `</div>`;
             let templete_body = ``;
-            let btn_count_clone = btn_count;
+            let damage_object;
+            damage_iterator++;
 
-            for (var i = 0; i < damage_str.length; i++) {
-                templete_body += `<img src="../static/img/damage_skin/기본데미지스킨/크리티컬x/기본데미지_크리티컬x_${damage_str[i]}.png" class="damage_img">`
+            templete_body += `<div class="damage${damage_iterator}">`;
+            for (var j = 0; j < damage_str.length; j++) {
+                templete_body += `<img src="../static/img/damage_skin/기본데미지스킨/크리티컬x/기본데미지_크리티컬x_${damage_str[j]}.png" class="damage_img">`
             }
+            templete_body += "</div>";
 
-            let damage_object = templete_head + templete_body + templete_tail;
+            damage_object = templete_body;
 
-            $("#content").append(damage_object);
-            for (var i = 1; i < damage_str.length; i++) {
-                $(".damage_img").attr("style", "margin-left: -10px");
-            }
-
-            btn_count++;
-            remove_damage_object(btn_count_clone)
+            return damage_object;
         }
 
-        function remove_damage_object(btn_count_clone) {   // 3초 뒤 엘리먼트 삭제
+        function remove_damage_object(btn_count_clone) {   // 2초 뒤 엘리먼트 삭제
             setTimeout(function () {	// 인스턴스 함수로 설정
-                $("#damage_" + btn_count_clone.toString()).remove();
-            }, 2000)	// 시간 설정
+                $(".damage_" + btn_count_clone.toString()).remove();
+            }, 5000)	// 시간 설정
         }
     </script>
 </body>
