@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
         integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Document</title>
 </head>
 
@@ -17,12 +19,15 @@
         }
 
         #content {
-            width: 500px;
             height: fit-content;
             position: relative;
             margin: 0 auto;
             margin-top: 5%;
             text-align: center;
+        }
+
+        .damage_skin_img {
+            margin-right: 3%;
         }
 
         .damage1 {
@@ -89,34 +94,6 @@
             from {
                 opacity: 1;
                 left: 0;
-                bottom: 20%;
-            }
-
-            to {
-                opacity: 0;
-                left: 0;
-                bottom: 24%;
-            }
-        }
-
-        @keyframes damage2 {
-            from {
-                opacity: 1;
-                left: 0;
-                bottom: 24%;
-            }
-
-            to {
-                opacity: 0;
-                left: 0;
-                bottom: 28%;
-            }
-        }
-
-        @keyframes damage3 {
-            from {
-                opacity: 1;
-                left: 0;
                 bottom: 28%;
             }
 
@@ -127,7 +104,7 @@
             }
         }
 
-        @keyframes damage4 {
+        @keyframes damage2 {
             from {
                 opacity: 1;
                 left: 0;
@@ -141,7 +118,7 @@
             }
         }
 
-        @keyframes damage5 {
+        @keyframes damage3 {
             from {
                 opacity: 1;
                 left: 0;
@@ -155,7 +132,7 @@
             }
         }
 
-        @keyframes damage6 {
+        @keyframes damage4 {
             from {
                 opacity: 1;
                 left: 0;
@@ -169,7 +146,7 @@
             }
         }
 
-        @keyframes damage7 {
+        @keyframes damage5 {
             from {
                 opacity: 1;
                 left: 0;
@@ -183,7 +160,7 @@
             }
         }
 
-        @keyframes damage8 {
+        @keyframes damage6 {
             from {
                 opacity: 1;
                 left: 0;
@@ -197,7 +174,7 @@
             }
         }
 
-        @keyframes damage9 {
+        @keyframes damage7 {
             from {
                 opacity: 1;
                 left: 0;
@@ -211,7 +188,7 @@
             }
         }
 
-        @keyframes damage10 {
+        @keyframes damage8 {
             from {
                 opacity: 1;
                 left: 0;
@@ -224,19 +201,203 @@
                 bottom: 60%;
             }
         }
+
+        @keyframes damage9 {
+            from {
+                opacity: 1;
+                left: 0;
+                bottom: 60%;
+            }
+
+            to {
+                opacity: 0;
+                left: 0;
+                bottom: 64%;
+            }
+        }
+
+        @keyframes damage10 {
+            from {
+                opacity: 1;
+                left: 0;
+                bottom: 64%;
+            }
+
+            to {
+                opacity: 0;
+                left: 0;
+                bottom: 68%;
+            }
+        }
     </style>
+    <div class="offcanvas offcanvas-end" data-bs-backdrop="false" tabindex="-1" id="offcanvasRight"
+        aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasRightLabel">세팅</h5>
+        </div>
+        <div class="offcanvas-body" id="setting_section">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="damage_skin_select_btn"
+                    data-bs-toggle="dropdown" aria-expanded="false" style="width:100%">
+                    <img src="" class="damage_skin_img" id="damage_skin_btn_templete">
+                    데미지 스킨 선택
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="damage_skin_select_btn" style="width:100%">
+                    <li id="damage_skin_num_1" data-value="기본" onclick="damage_skin_select('1')"><a class="dropdown-item" href="#"><img src="../static/img/damage_skin/기본데미지스킨/기본데미지스킨_템플릿.png" class="damage_skin_img"><span>기본 데미지 스킨</span></a></li>
+                    <li id="damage_skin_num_2" data-value="스타플래닛" onclick="damage_skin_select('2')"><a class="dropdown-item" href="#"><img src="../static/img/damage_skin/스타플래닛데미지스킨/스타플래닛데미지스킨_템플릿.png" class="damage_skin_img"><span>스타플래닛 데미지 스킨</span></a></li>
+                </ul>
+            </div>
+            <br>
+            <div style="border: 1px solid gray;border-radius: 5px;padding:5%;">
+                <h4>데미지 세팅</h4>
+                <br>
+                <div class="mb-3">
+                    <label for="max_damage" class="form-label">Max damage</label>
+                    <input type="text" class="form-control" id="max_damage" placeholder="Max damage">
+                </div>
+                <div class="mb-3">
+                    <label for="min_damage" class="form-label">Min damage</label>
+                    <input type="text" class="form-control" id="min_damage" placeholder="Min damage">
+                </div>
+            </div>
+            <br>
+            <div style="border: 1px solid gray;border-radius: 5px;padding:5%;">
+                <h4>크리티컬 세팅</h4>
+                <br>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-primary" id="critical_reduction">-10</button>
+                    <input type="text" class="form-control" id="critical_probability" style="text-align:center"
+                        readonly>
+                    <button type="button" class="btn btn-primary" id="critical_increase">+10</button>
+                </div>
+            </div>
+            <br>
+            <div style="border: 1px solid gray;border-radius: 5px;padding:5%;">
+                <h4>타수 세팅</h4>
+                <br>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-primary" id="combo_reduction">-1</button>
+                    <input type="text" class="form-control" id="combo" style="text-align:center" readonly>
+                    <button type="button" class="btn btn-primary" id="combo_increase">+1</button>
+                </div>
+            </div>
+            <br>
+            <div style="text-align:center">
+                <button type="button" class="btn btn-primary" style="width:40%" id="apply">적용</button>
+                <button type="button" class="btn btn-danger" style="width:40%" id="cancel">취소</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand">데미지 스킨 시뮬레이터</a>
+            <button style="border: 1px solid gray;border-radius: 5px;" id="setting_btn">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
 
     <div id="content">
         <h1>핑크빈 쳐보던가</h1>
-        <img onclick="click_damage_btn(btn_count)" src="../static/img/damage_measurement/핑크빈.png" style="margin-top:100%;
+        <img onclick="click_damage_btn(btn_count)" src="../static/img/damage_measurement/핑크빈.png" style="margin-top:50%;
         cursor:pointer;
         outline:none;
         -webkit-tap-highlight-color : rgba(0,0,0,0);">
     </div>
 
     <script>
-        let btn_count = 0;
-        let damage_combo = 10;
+        let max_damage;
+        let min_damage;
+        let critical_probability;
+        let damage_combo;
+        let btn_count;
+        let damage_skin;
+        let damage_skin_temp;
+        let damage_skin_num_temp;
+        let damage_skin_btn_templete;
+        let damage_skin_btn_templete_temp;
+
+        setting_init();
+
+        $("#setting_btn").click(function () {
+            $('#setting_section').scrollTop(0);
+            $('#offcanvasRight').offcanvas('show');
+        })
+
+        $("#critical_increase").click(function () {
+            if (Number($("#critical_probability").val()) < 100) {
+                $("#critical_probability").val(Number($("#critical_probability").val()) + 10);
+            }
+        })
+
+        $("#critical_reduction").click(function () {
+            if (Number($("#critical_probability").val()) > 0) {
+                $("#critical_probability").val(Number($("#critical_probability").val()) - 10);
+            }
+        })
+
+        $("#combo_increase").click(function () {
+            if (Number($("#combo").val()) < 10) {
+                $("#combo").val(Number($("#combo").val()) + 1);
+            }
+        })
+
+        $("#combo_reduction").click(function () {
+            if (Number($("#combo").val()) > 1) {
+                $("#combo").val(Number($("#combo").val()) - 1);
+            }
+        })
+
+        $("#apply").click(function () {
+            max_damage = Number($("#max_damage").val());
+            min_damage = Number($("#min_damage").val());
+            critical_probability = Number($("#critical_probability").val());
+            damage_combo = Number($("#combo").val());
+            damage_skin_num = damage_skin_num_temp;
+            damage_skin = damage_skin_temp;
+            damage_skin_btn_templete = damage_skin_btn_templete_temp;
+            $("#damage_skin_btn_templete").attr("src", damage_skin_btn_templete);
+            $("#offcanvasRight").offcanvas("hide");
+        })
+
+        $("#cancel").click(function () {
+            offcanvas_init();
+            $("#damage_skin_btn_templete").attr("src", damage_skin_btn_templete);
+            $("#offcanvasRight").offcanvas("hide");
+        })
+
+        function setting_init() {
+            max_damage = 10000000000;
+            min_damage = 0;
+            critical_probability = 50;
+            damage_combo = 5;
+            btn_count = 0;
+            damage_skin_num = "1";
+            damage_skin = $(`#damage_skin_num_1`).data("value");
+            damage_skin_temp = damage_skin;
+            damage_skin_btn_templete = "../static/img/damage_skin/기본데미지스킨/기본데미지스킨_템플릿.png";
+            $("#damage_skin_btn_templete").attr("src", damage_skin_btn_templete);
+            offcanvas_init();
+        }
+
+        function offcanvas_init() {
+            $("#max_damage").val(max_damage);
+            $("#min_damage").val(min_damage);
+            $("#critical_probability").val(critical_probability);
+            $("#combo").val(damage_combo);
+        }
+
+        function damage_skin_select(number) {
+            damage_skin_num_temp = number.toString();
+            damage_skin_temp = $(`#damage_skin_num_${damage_skin_num_temp}`).data("value");
+            damage_skin_btn_templete_temp = `../static/img/damage_skin/${damage_skin_temp}데미지스킨/${damage_skin_temp}데미지스킨_템플릿.png`;
+            $("#damage_skin_btn_templete").attr("src", damage_skin_btn_templete_temp);
+        }
+
+        function damage_skin_templete_set(number) {
+
+        }
 
         function click_damage_btn() {
             const templete_head = `<div class="damage damage_${btn_count}">`;
@@ -268,18 +429,25 @@
         }
 
         function create_damage_object(damage_iterator) {
-            const max_damage = 10000000000;
-            const min_damage = 0;
             const damage = Math.floor(Math.random() * (max_damage - min_damage + 1) + min_damage);
             const damage_str = damage.toString();
+            const critical_probability_contrast = Math.floor(Math.random() * (100 - 0 + 1) + 0);
             let templete_body = ``;
             let damage_object;
             damage_iterator++;
 
             templete_body += `<div class="damage${damage_iterator}">`;
-            for (var j = 0; j < damage_str.length; j++) {
-                templete_body += `<img src="../static/img/damage_skin/기본데미지스킨/크리티컬x/기본데미지_크리티컬x_${damage_str[j]}.png" class="damage_img">`
+            if (critical_probability_contrast <= critical_probability && critical_probability_contrast != 0) {
+                templete_body += `<img src="../static/img/damage_skin/${damage_skin}데미지스킨/크리티컬o/${damage_skin}데미지_크리티컬o_표식.png" class="damage_img">`
+                for (var j = 0; j < damage_str.length; j++) {
+                    templete_body += `<img src="../static/img/damage_skin/${damage_skin}데미지스킨/크리티컬o/${damage_skin}데미지_크리티컬o_${damage_str[j]}.png" class="damage_img">`
+                }
+            } else {
+                for (var j = 0; j < damage_str.length; j++) {
+                    templete_body += `<img src="../static/img/damage_skin/${damage_skin}데미지스킨/크리티컬x/${damage_skin}데미지_크리티컬x_${damage_str[j]}.png" class="damage_img">`
+                }
             }
+            console.log(critical_probability_contrast);
             templete_body += "</div>";
 
             damage_object = templete_body;
@@ -290,9 +458,12 @@
         function remove_damage_object(btn_count_clone) {   // 2초 뒤 엘리먼트 삭제
             setTimeout(function () {	// 인스턴스 함수로 설정
                 $(".damage_" + btn_count_clone.toString()).remove();
-            }, 5000)	// 시간 설정
+            }, 2500)	// 시간 설정
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
