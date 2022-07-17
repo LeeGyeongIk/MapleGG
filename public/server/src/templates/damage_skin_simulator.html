@@ -437,7 +437,7 @@
             damage_iterator++;
 
             templete_body += `<div class="damage${damage_iterator}">`;
-            if (critical_probability_contrast <= critical_probability && critical_probability_contrast != 0) {
+            if (critical_probability_contrast <= critical_probability && critical_probability != 0) {
                 templete_body += `<img src="../static/img/damage_skin/${damage_skin}데미지스킨/크리티컬o/${damage_skin}데미지_크리티컬o_표식.png" class="damage_img">`
                 for (var j = 0; j < damage_str.length; j++) {
                     templete_body += `<img src="../static/img/damage_skin/${damage_skin}데미지스킨/크리티컬o/${damage_skin}데미지_크리티컬o_${damage_str[j]}.png" class="damage_img">`
