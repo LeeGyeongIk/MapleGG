@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.6.0.js"
-        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+        integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Document</title>
@@ -14,10 +14,6 @@
 
 <body>
     <style>
-        :root {
-            --animation-delay: 2s forwards;
-        }
-
         #content {
             height: fit-content;
             position: relative;
@@ -25,11 +21,10 @@
             margin-top: 5%;
             text-align: center;
         }
-
-        .damage_skin_img {
-            margin-right: 3%;
-        }
     </style>
+
+    <style id="damage_object_animation"></style>
+
     <div class="offcanvas offcanvas-end" data-bs-backdrop="false" tabindex="-1" id="offcanvasRight"
         aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header">
@@ -59,11 +54,11 @@
                 <br>
                 <div class="mb-3">
                     <label for="max_damage" class="form-label">Max damage</label>
-                    <input type="text" class="form-control" id="max_damage" placeholder="Max damage">
+                    <input type="number" class="form-control" id="max_damage" placeholder="Max damage" onkeyup="max_damage_set($('#max_damage').val())">
                 </div>
                 <div class="mb-3">
                     <label for="min_damage" class="form-label">Min damage</label>
-                    <input type="text" class="form-control" id="min_damage" placeholder="Min damage">
+                    <input type="number" class="form-control" id="min_damage" placeholder="Min damage" onkeyup="min_damage_set($('#min_damage').val())">
                 </div>
             </div>
             <br>
@@ -88,7 +83,8 @@
                 </div>
                 <br>
                 <br>
-                <button type="button" class="btn btn-primary" id="combo_max">최대 타수</button>
+                <button type="button" class="btn btn-primary" id="min_combo_btn">최소 타수</button>
+                <button type="button" class="btn btn-primary" id="max_combo_btn">최대 타수</button>
             </div>
             <br>
             <div style="text-align:center">
@@ -109,18 +105,31 @@
 
     <div id="content">
         <h1>핑크빈 쳐보던가</h1>
-        <img onclick="click_damage_btn(btn_count)" src="../static/img/damage_measurement/핑크빈.png" style="margin-top:50%;
+        <img onclick="click_damage_btn(btn_count)" src="../static/img/damage_measurement/핑크빈.png" style="
+        position:fixed;
+        left:50%;
+        transform:translate(-50%, 0);
+        bottom:0;
         cursor:pointer;
         outline:none;
         -webkit-tap-highlight-color : rgba(0,0,0,0);">
+        <div style="position:fixed;right:0;bottom:0;width:400px">
+            <h3>총합 데미지</h3>
+            <p id="total_damage" style="font-size:1.5em"></p>
+        </div>
     </div>
 
     <script>
+        let max_damage_sys;
+        let min_damage_sys;
         let max_damage;
         let min_damage;
         let critical_probability;
+        let max_damage_combo;
+        let min_damage_combo;
         let damage_combo;
         let btn_count;
+        let total_damage;
         let damage_skin;
         let damage_skin_temp;
         let damage_skin_num_temp;
@@ -147,7 +156,7 @@
         })
 
         $("#combo_increase").click(function () {
-            if (Number($("#combo").val()) < 50) {
+            if (Number($("#combo").val()) < 15) {
                 $("#combo").val(Number($("#combo").val()) + 1);
             }
         })
@@ -158,8 +167,12 @@
             }
         })
 
-        $("#combo_max").click(function () {
-            $("#combo").val(50);
+        $("#max_combo_btn").click(function () {
+            $("#combo").val(max_damage_combo);
+        })
+
+        $("#min_combo_btn").click(function () {
+            $("#combo").val(min_damage_combo);
         })
 
         $("#apply").click(function () {
@@ -171,7 +184,14 @@
             damage_skin = damage_skin_temp;
             damage_skin_btn_templete = damage_skin_btn_templete_temp;
             $("#damage_skin_btn_templete").attr("src", damage_skin_btn_templete);
+            if ($("#max_damage").val().length == 0) {
+                $("#max_damage").val(0);
+            }
+            if ($("#min_damage").val().length == 0) {
+                $("#min_damage").val(0);
+            }
             $("#offcanvasRight").offcanvas("hide");
+            damage_object_animation_init();
         })
 
         $("#cancel").click(function () {
@@ -180,18 +200,80 @@
             $("#offcanvasRight").offcanvas("hide");
         })
 
+        function max_damage_set(value) {
+            if (value > max_damage_sys) {
+                $("#max_damage").val(max_damage_sys);
+            }
+            if (value < 0) {
+                $("#max_damage").val(min_damage_sys);
+            }
+        }
+
+        function min_damage_set(value) {
+            if (value < 0) {
+                $("#min_damage").val(min_damage_sys);
+            }
+            if (value > max_damage_sys) {
+                $("#min_damage").val(max_damage_sys);
+            }
+        }
+
         function setting_init() {
-            max_damage = 10000000000;
-            min_damage = 0;
+            max_damage_sys = 150000000000;
+            min_damage_sys = 0;
+            max_damage = max_damage_sys;
+            min_damage = min_damage_sys;
             critical_probability = 50;
+            max_damage_combo = 15;
+            min_damage_combo = 1;
             damage_combo = 5;
             btn_count = 0;
+            total_damage = 0;
             damage_skin_num = "1";
             damage_skin = $(`#damage_skin_num_1`).data("value");
             damage_skin_temp = damage_skin;
             damage_skin_btn_templete = "../static/img/damage_skin/기본데미지스킨/기본데미지스킨_템플릿.png";
             $("#damage_skin_btn_templete").attr("src", damage_skin_btn_templete);
+            $("#total_damage").html(total_damage);
+            damage_object_animation_init();
             offcanvas_init();
+        }
+
+        function damage_object_animation_init() {
+            // let bottom_from = 28;
+            // let bottom_to = 32;
+            let bottom_from = 150;
+            let bottom_to = 180;
+
+            $("#damage_object_animation").empty();
+
+            for (var i = 1; i <= damage_combo; i++) {
+                $("#damage_object_animation").append(`
+                    .damage${i} {
+                        width: 100%;
+                        position: fixed;
+                        animation: damage${i} 2s forwards;
+                    }
+
+                    @keyframes damage${i} {
+                        from {
+                            opacity: 1;
+                            left: 0;
+                            bottom: ${bottom_from}px;
+                        }
+
+                        to {
+                            opacity: 0;
+                            left: 0;
+                            bottom: ${bottom_to}px;
+                        }
+                    }
+                `)
+                // bottom_from += 4;
+                // bottom_to += 4;
+                bottom_from += 30;
+                bottom_to += 30;
+            }
         }
 
         function offcanvas_init() {
@@ -208,66 +290,49 @@
             $("#damage_skin_btn_templete").attr("src", damage_skin_btn_templete_temp);
         }
 
-        function damage_skin_templete_set(number) {
-
-        }
-
         function click_damage_btn() {
             const templete_head = `<div class="damage damage_${btn_count}">`;
             const templete_tail = `</div>`;
             const damage_arr = new Array();
             let btn_count_clone = btn_count;
-            let height_start = 28;
-            let height_end = 32;
             for (var i = 0; i < damage_combo; i++) {
                 damage_arr.push(create_damage_object(i));
             }
-
             for (var i = 0; i < damage_combo; i++) {
                 if (i != 0) {
                     (function (x) {
                         setTimeout(function () {	// 인스턴스 함수로 설정
-                            damage_object = templete_head + damage_arr[x] + templete_tail;
+                            damage_object = templete_head + damage_arr[x].img + templete_tail;
                             $("#content").append(damage_object);
                             $(".damage_img").attr("style", "margin-left: -10px");
-                            $(`.damage${x}`).css({
-                                width: '100%',
-                                position: 'absolute',
-                                bottom: `${height_start}%`
-                            })
-                            $(`.damage${x}`).animate({ opacity: '0%', bottom: `${height_end}%` }, { duration: 2000 });
-                            height_start += 4;
-                            height_end += 4;
+                            remove_damage_object(btn_count_clone, x + 1);
+                            total_damage += damage_arr[x].dmg;
+                            $("#total_damage").html(numberToKorean(total_damage));
                         }, 100 * x);
                     })(i);	// 시간 설정
                 } else {
-                    damage_object = templete_head + damage_arr[i] + templete_tail;
+                    damage_object = templete_head + damage_arr[i].img + templete_tail;
                     $("#content").append(damage_object);
                     $(".damage_img").attr("style", "margin-left: -10px");
-                    $(`.damage${i}`).css({
-                        width: '100%',
-                        position: 'absolute',
-                        bottom: `${height_start}%`
-                    })
-                    $(`.damage${i}`).animate({ opacity: '0%', bottom: `${height_end}%` }, { duration: 2000 });
-                    height_start += 4;
-                    height_end += 4;
+                    remove_damage_object(btn_count_clone, i + 1);
+                    total_damage += damage_arr[i].dmg;
+                    $("#total_damage").html(numberToKorean(total_damage));
                 }
             }
-
-            remove_damage_object(btn_count_clone)
             btn_count++;
         }
 
         function create_damage_object(damage_iterator) {
             const damage = Math.floor(Math.random() * (max_damage - min_damage + 1) + min_damage);
             const damage_str = damage.toString();
-            const critical_probability_contrast = Math.floor(Math.random() * (100 - 0 + 1) + 0);
+            const critical_probability_contrast = Math.floor(Math.random() * (100 - 1 + 1) + 1);
             let templete_body = ``;
             let damage_object;
+            let result = new Object();
+            damage_iterator++;
 
             templete_body += `<div class="damage${damage_iterator}">`;
-            if (critical_probability_contrast <= critical_probability && critical_probability != 0) {
+            if (critical_probability_contrast <= critical_probability) {
                 templete_body += `<img src="../static/img/damage_skin/${damage_skin}데미지스킨/크리티컬o/${damage_skin}데미지_크리티컬o_표식.png" class="damage_img">`
                 for (var j = 0; j < damage_str.length; j++) {
                     templete_body += `<img src="../static/img/damage_skin/${damage_skin}데미지스킨/크리티컬o/${damage_skin}데미지_크리티컬o_${damage_str[j]}.png" class="damage_img">`
@@ -278,18 +343,49 @@
                 }
             }
             templete_body += "</div>";
-
             damage_object = templete_body;
-
-            damage_iterator++;
-
-            return damage_object;
+            result.img = damage_object;
+            result.dmg = damage;
+            return result;
         }
 
-        function remove_damage_object(btn_count_clone) {   // 2초 뒤 엘리먼트 삭제
+        function numberFormat(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function numberToKorean(number) {
+            var inputNumber = number < 0 ? false : number;
+            var unitWords = ['', '만', '억', '조', '경'];
+            var splitUnit = 10000;
+            var splitCount = unitWords.length;
+            var resultArray = [];
+            var resultString = '';
+
+            for (var i = 0; i < splitCount; i++) {
+                var unitResult = (inputNumber % Math.pow(splitUnit, i + 1)) / Math.pow(splitUnit, i);
+                unitResult = Math.floor(unitResult);
+                if (unitResult > 0) {
+                    resultArray[i] = unitResult;
+                }
+            }
+
+            for (var i = 0; i < resultArray.length; i++) {
+                if (!resultArray[i]) continue;
+                resultString = String(numberFormat(resultArray[i])) + unitWords[i] + resultString;
+            }
+
+            return resultString;
+        }
+
+        function remove_damage_object(btn_count_clone, damage_object_num) {   // n초 뒤 엘리먼트 삭제
+            setTimeout(function () {	// 인스턴스 함수로 설정
+                $(`div.damage_${btn_count_clone.toString()}`).find(`div.damage${damage_object_num}`).remove();
+                //$(".damage_" + btn_count_clone.toString()).remove();
+            }, 2000)	// 시간 설정
+
             setTimeout(function () {	// 인스턴스 함수로 설정
                 $(".damage_" + btn_count_clone.toString()).remove();
-            }, 5000)	// 시간 설정
+            }, 2000 + (100 * damage_combo))	// 시간 설정
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
