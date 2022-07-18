@@ -1,0 +1,124 @@
+.character-card {
+    font-size:0;
+    height:500px;
+    margin:0 auto;
+    margin-top: 2%;
+    position:relative;
+    text-align:center;
+    width:343px;
+}
+
+.character-frame {
+    height:481px;
+    left:8px;
+    position:absolute;
+    top:11px;
+    width:327px;
+    z-index:-1;
+}
+
+.character-background {
+    height:500px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:343px;
+    z-index:-2;
+}
+
+.character-card-image { 
+    height:168px;
+    left:10%;
+    position:absolute;
+    top:56px;
+    transform:translateX(-50%);
+    width:168px;
+}
+
+.character-image {
+    left:50%;
+}
+
+.character-card-content {
+    padding-top:75%;
+}
+
+.character-card-name {
+    color:#fff;
+    font-size:24px;
+    font-weight:700;
+    line-height:32px;
+    margin-bottom:4px;
+}
+
+.character-card-summary {
+    font-size:0;
+    margin-bottom:12px;
+    padding:0;
+}
+
+.character-card-summary-item {
+    color:#fff;
+    display:inline-block;
+    font-size:14px;
+    line-height:16px;
+    position:relative;
+}
+
+.character-card-summary-line {
+    background-color:#fff;
+    display:inline-block;
+    height:8px;
+    margin:0 8px;
+    width:1px;
+}
+
+.character-card-popular {
+    color:#cdad80;
+    font-size:12px;
+    line-height:18px;
+    margin-bottom:4px;
+}
+
+.character-card-popular b {
+    color:#ffe3bd;
+}
+
+.character-card-effect {
+    height:11px;
+    margin:14px 0 16px;
+    width:68px;
+}
+
+.character-card-additional {
+    font-size:0;
+    margin:0;
+    padding:0 28px
+}
+
+.character-card-additional-item {
+    color:#cdad80;
+    display:inline-block;
+    font-size:13px;
+    line-height:15px;
+    vertical-align:top;
+    width:33.3333%;
+}
+
+.character-card-additional-item b {
+    color:#ffe3bd;
+    display:block;
+    font-size:14px;
+    line-height:16px;
+    margin-bottom:4px;
+}
+
+.character-card-additional-item span {
+    font-size:14px;
+    line-height:16px;
+}
+
+.character-card-additional-item small {
+    font-size:12px;
+    line-height:16px;
+}

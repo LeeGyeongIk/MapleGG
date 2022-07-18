@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+        integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        .option_section {
+            animation: cube 2s;
+        }
+
+        @keyframes cube {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+    <div style="text-align:center; position:relative;">
+        <img src="../static/img/cube/그림1.png" alt="">
+        <div id="option_content"></div>
+        <button id="cube"
+            style="position:absolute;left:22%;bottom:2%;width:43%;height:7%;background-color: rgba(0,0,0,0);border:none"></button> <!-- 한번더 -->
+        <button id="reset"
+            style="position:absolute;left:66%;bottom:2%;width:13%;height:7%;background-color: rgba(0,0,0,0);border:none"></button> <!-- 확인 -->
+
+    </div>
+    <script>
+        const probability1 = {
+            "STR : +12%": 9.7561,
+            "DEX : +12%": 9.7561,
+            "INT : +12%": 9.7561,
+            "LUK : +12%": 9.7561,
+            "공격력 : +12%": 4.878,
+            "마력 : +12%": 4.878,
+            "크리티컬 확률 : +12%": 4.878,
+            "데미지 : +12%": 4.878,
+            "올스탯 : +9%": 7.3171,
+            "캐릭터 기준 10레벨 당 공격력 : +1": 4.878,
+            "캐릭터 기준 10레벨 당 마력 : +1": 4.878,
+            "몬스터 방어율 무시 : +35%": 4.878,
+            "몬스터 방어율 무시 : +40%": 4.878,
+            "보스 몬스터 공격 시 데미지 : +35%": 9.7561,
+            "보스 몬스터 공격 시 데미지 : +40%": 4.878,
+        };
+        const probability2 = {
+            "STR : +9%": 9.3023,
+            "DEX : +9%": 9.3023,
+            "INT : +9%": 9.3023,
+            "LUK : +9%": 9.3023,
+            "공격력 : +9%": 5.5814,
+            "마력 : +9%": 5.5814,
+            "크리티컬 확률 : +9%": 7.4419,
+            "데미지 : +9%": 5.5814,
+            "올스탯 : +6%": 7.4419,
+            "몬스터 방어율 무시 : +30%": 5.5814,
+            "보스 몬스터 공격 시 데미지 : +30%": 5.5814,
+            "STR : +12%": 1.9512,
+            "DEX : +12%": 1.9512,
+            "INT : +12%": 1.9512,
+            "LUK : +12%": 1.9512,
+            "공격력 : +12%": 0.9756,
+            "마력 : +12%": 0.9756,
+            "크리티컬 확률 : +12%": 0.9756,
+            "데미지 : +12%": 0.9756,
+            "올스탯 : +9%": 1.4634,
+            "캐릭터 기준 10레벨 당 공격력 : +1": 0.9756,
+            "캐릭터 기준 10레벨 당 마력 : +1": 0.9756,
+            "몬스터 방어율 무시 : +35%": 0.9756,
+            "몬스터 방어율 무시 : +40%": 0.9756,
+            "보스 몬스터 공격 시 데미지 : +35%": 1.9512,
+            "보스 몬스터 공격 시 데미지 : +40%": 0.9756
+        }
+        const probability3 = {
+            "STR : +9%": 11.0465,
+            "DEX : +9%": 11.0465,
+            "INT : +9%": 11.0465,
+            "LUK : +9%": 11.0465,
+            "공격력 : +9%": 6.6279,
+            "마력 : +9%": 6.6279,
+            "크리티컬 확률 : +9%": 8.8372,
+            "데미지 : +9%": 6.6279,
+            "올스탯 : +6%": 8.8372,
+            "몬스터 방어율 무시 : +30%": 6.6279,
+            "보스 몬스터 공격 시 데미지 : +30%": 6.6279,
+            "STR : +12%": 0.4878,
+            "DEX : +12%": 0.4878,
+            "INT : +12%": 0.4878,
+            "LUK : +12%": 0.4878,
+            "공격력 : +12%": 0.2439,
+            "마력 : +12%": 0.2439,
+            "크리티컬 확률 : +12%": 0.2439,
+            "데미지 : +12%": 0.2439,
+            "올스탯 : +9%": 0.3659,
+            "캐릭터 기준 10레벨 당 공격력 : +1": 0.2439,
+            "캐릭터 기준 10레벨 당 마력 : +1": 0.2439,
+            "몬스터 방어율 무시 : +35%": 0.2439,
+            "몬스터 방어율 무시 : +40%": 0.2439,
+            "보스 몬스터 공격 시 데미지 : +35%": 0.4878,
+            "보스 몬스터 공격 시 데미지 : +40%": 0.2439
+        }
+        let cubemoney = 0;
+
+        $("#cube").click(function () {
+            cube();
+        })
+
+        $("#reset").click(function () {
+            cubemoney = reset(cubemoney);
+            console.log(cubemoney);
+        })
+
+        function cube() {
+            let temp = 0;
+            let op1;
+            let op2;
+            let op3;
+
+            let a = Math.random() * 100
+            if (0 <= a && a < probability1["STR : +12%"]) { op1 = ("STR : +12%") }; temp += probability1["STR : +12%"];
+            if (temp <= a && a <= temp + probability1["DEX : +12%"]) { op1 = ("DEX : +12%") }; temp += probability1["DEX : +12%"];
+            if (temp <= a && a <= temp + probability1["INT : +12%"]) { op1 = ("INT : +12%") }; temp += probability1["INT : +12%"];
+            if (temp <= a && a <= temp + probability1["LUK : +12%"]) { op1 = ("LUK : +12%") }; temp += probability1["LUK : +12%"];
+            if (temp <= a && a <= temp + probability1["공격력 : +12%"]) { op1 = ("공격력 : +12%") }; temp += probability1["공격력 : +12%"];
+            if (temp <= a && a <= temp + probability1["마력 : +12%"]) { op1 = ("마력 : +12%") }; temp += probability1["마력 : +12%"];
+            if (temp <= a && a <= temp + probability1["크리티컬 확률 : +12%"]) { op1 = ("크리티컬 확률 : +12%") }; temp += probability1["크리티컬 확률 : +12%"];
+            if (temp <= a && a <= temp + probability1["데미지 : +12%"]) { op1 = ("데미지 : +12%") }; temp += probability1["데미지 : +12%"];
+            if (temp <= a && a <= temp + probability1["올스탯 : +9%"]) { op1 = ("올스탯 : +9%") }; temp += probability1["올스탯 : +9%"];
+            if (temp <= a && a <= temp + probability1["캐릭터 기준 10레벨 당 공격력 : +1"]) { op1 = ("캐릭터 기준 10레벨 당 공격력 : +1") }; temp += probability1["캐릭터 기준 10레벨 당 공격력 : +1"];
+            if (temp <= a && a <= temp + probability1["캐릭터 기준 10레벨 당 마력 : +1"]) { op1 = ("캐릭터 기준 10레벨 당 마력 : +1") }; temp += probability1["캐릭터 기준 10레벨 당 마력 : +1"];
+            if (temp <= a && a <= temp + probability1["몬스터 방어율 무시 : +35%"]) { op1 = ("몬스터 방어율 무시 : +35%") }; temp += probability1["몬스터 방어율 무시 : +35%"];
+            if (temp <= a && a <= temp + probability1["몬스터 방어율 무시 : +40%"]) { op1 = ("몬스터 방어율 무시 : +40%") }; temp += probability1["몬스터 방어율 무시 : +40%"];
+            if (temp <= a && a <= temp + probability1["보스 몬스터 공격 시 데미지 : +35%"]) { op1 = ("보스 몬스터 공격 시 데미지 : +35%") }; temp += probability1["보스 몬스터 공격 시 데미지 : +35%"];
+            if (temp <= a && a <= temp + probability1["보스 몬스터 공격 시 데미지 : +40%"]) { op1 = ("보스 몬스터 공격 시 데미지 : +40%") };
+
+            temp = 0;
+
+            let b = Math.random() * 100
+            if (0 <= b && b <= probability2["STR : +9%"]) { op2 = ("STR : +9%") }; temp += probability2["STR : +9%"];
+            if (temp <= b && b <= temp + probability2["DEX : +9%"]) { op2 = ("DEX : +9%") }; temp += probability2["DEX : +9%"];
+            if (temp <= b && b <= temp + probability2["INT : +9%"]) { op2 = ("INT : +9%") }; temp += probability2["INT : +9%"];
+            if (temp <= b && b <= temp + probability2["LUK : +9%"]) { op2 = ("LUK : +9%") }; temp += probability2["LUK : +9%"];
+            if (temp <= b && b <= temp + probability2["공격력 : +9%"]) { op2 = ("공격력 : +9%") }; temp += probability2["공격력 : +9%"];
+            if (temp <= b && b <= temp + probability2["마력 : +9%"]) { op2 = ("마력 : +9%") }; temp += probability2["마력 : +9%"];
+            if (temp <= b && b <= temp + probability2["크리티컬 확률 : +9%"]) { op2 = ("크리티컬 확률 : +9%") }; temp += probability2["크리티컬 확률 : +9%"];
+            if (temp <= b && b <= temp + probability2["데미지 : +9%"]) { op2 = ("데미지 : +9%") }; temp += probability2["데미지 : +9%"];
+            if (temp <= b && b <= temp + probability2["올스탯 : +6%"]) { op2 = ("올스탯 : +6%") }; temp += probability2["올스탯 : +6%"];
+            if (temp <= b && b <= temp + probability2["몬스터 방어율 무시 : +30%"]) { op2 = ("몬스터 방어율 무시 : +30%") }; temp += probability2["몬스터 방어율 무시 : +30%"];
+            if (temp <= b && b <= temp + probability2["보스 몬스터 공격 시 데미지 : +30%"]) { op2 = ("보스 몬스터 공격 시 데미지 : +30%") }; temp += probability2["보스 몬스터 공격 시 데미지 : +30%"];
+            if (temp <= b && b <= temp + probability2["STR : +12%"]) { op2 = ("STR : +12%") }; temp += probability2["STR : +12%"];
+            if (temp <= b && b <= temp + probability2["DEX : +12%"]) { op2 = ("DEX : +12%") }; temp += probability2["DEX : +12%"];
+            if (temp <= b && b <= temp + probability2["INT : +12%"]) { op2 = ("INT : +12%") }; temp += probability2["INT : +12%"];
+            if (temp <= b && b <= temp + probability2["LUK : +12%"]) { op2 = ("LUK : +12%") }; temp += probability2["LUK : +12%"];
+            if (temp <= b && b <= temp + probability2["공격력 : +12%"]) { op2 = ("공격력 : +12%") }; temp += probability2["공격력 : +12%"];
+            if (temp <= b && b <= temp + probability2["마력 : +12%"]) { op2 = ("마력 : +12%") }; temp += probability2["마력 : +12%"];
+            if (temp <= b && b <= temp + probability2["크리티컬 확률 : +12%"]) { op2 = ("크리티컬 확률 : +12%") }; temp += probability2["크리티컬 확률 : +12%"];
+            if (temp <= b && b <= temp + probability2["데미지 : +12%"]) { op2 = ("데미지 : +12%") }; temp += probability2["데미지 : +12%"];
+            if (temp <= b && b <= temp + probability2["올스탯 : +9%"]) { op2 = ("올스탯 : +9%") }; temp += probability2["올스탯 : +9%"];
+            if (temp <= b && b <= temp + probability2["캐릭터 기준 10레벨 당 공격력 : +1"]) { op2 = ("캐릭터 기준 10레벨 당 공격력 : +1") }; temp += probability2["캐릭터 기준 10레벨 당 공격력 : +1"];
+            if (temp <= b && b <= temp + probability2["캐릭터 기준 10레벨 당 마력 : +1"]) { op2 = ("캐릭터 기준 10레벨 당 마력 : +1") }; temp += probability2["캐릭터 기준 10레벨 당 마력 : +1"];
+            if (temp <= b && b <= temp + probability2["몬스터 방어율 무시 : +35%"]) { op2 = ("몬스터 방어율 무시 : +35%") }; temp += probability2["몬스터 방어율 무시 : +35%"];
+            if (temp <= b && b <= temp + probability2["몬스터 방어율 무시 : +40%"]) { op2 = ("몬스터 방어율 무시 : +40%") }; temp += probability2["몬스터 방어율 무시 : +40%"];
+            if (temp <= b && b <= temp + probability2["보스 몬스터 공격 시 데미지 : +35%"]) { op2 = ("보스 몬스터 공격 시 데미지 : +35%") }; temp += probability2["보스 몬스터 공격 시 데미지 : +35%"];
+            if (temp <= b && b <= temp + probability2["보스 몬스터 공격 시 데미지 : +40%"]) { op2 = ("보스 몬스터 공격 시 데미지 : +40%") };
+
+            temp = 0;
+
+            let c = Math.random() * 100
+            if (0 <= c && c <= probability2["STR : +9%"]) { op3 = ("STR : +9%") }; temp += probability2["STR : +9%"];
+            if (temp <= c && c <= temp + probability2["DEX : +9%"]) { op3 = ("DEX : +9%") }; temp += probability2["DEX : +9%"];
+            if (temp <= c && c <= temp + probability2["INT : +9%"]) { op3 = ("INT : +9%") }; temp += probability2["INT : +9%"];
+            if (temp <= c && c <= temp + probability2["LUK : +9%"]) { op3 = ("LUK : +9%") }; temp += probability2["LUK : +9%"];
+            if (temp <= c && c <= temp + probability2["공격력 : +9%"]) { op3 = ("공격력 : +9%") }; temp += probability2["공격력 : +9%"];
+            if (temp <= c && c <= temp + probability2["마력 : +9%"]) { op3 = ("마력 : +9%") }; temp += probability2["마력 : +9%"];
+            if (temp <= c && c <= temp + probability2["크리티컬 확률 : +9%"]) { op3 = ("크리티컬 확률 : +9%") }; temp += probability2["크리티컬 확률 : +9%"];
+            if (temp <= c && c <= temp + probability2["데미지 : +9%"]) { op3 = ("데미지 : +9%") }; temp += probability2["데미지 : +9%"];
+            if (temp <= c && c <= temp + probability2["올스탯 : +6%"]) { op3 = ("올스탯 : +6%") }; temp += probability2["올스탯 : +6%"];
+            if (temp <= c && c <= temp + probability2["몬스터 방어율 무시 : +30%"]) { op3 = ("몬스터 방어율 무시 : +30%") }; temp += probability2["몬스터 방어율 무시 : +30%"];
+            if (temp <= c && c <= temp + probability2["보스 몬스터 공격 시 데미지 : +30%"]) { op3 = ("보스 몬스터 공격 시 데미지 : +30%") }; temp += probability2["보스 몬스터 공격 시 데미지 : +30%"];
+            if (temp <= c && c <= temp + probability2["STR : +12%"]) { op3 = ("STR : +12%") }; temp += probability2["STR : +12%"];
+            if (temp <= c && c <= temp + probability2["DEX : +12%"]) { op3 = ("DEX : +12%") }; temp += probability2["DEX : +12%"];
+            if (temp <= c && c <= temp + probability2["INT : +12%"]) { op3 = ("INT : +12%") }; temp += probability2["INT : +12%"];
+            if (temp <= c && c <= temp + probability2["LUK : +12%"]) { op3 = ("LUK : +12%") }; temp += probability2["LUK : +12%"];
+            if (temp <= c && c <= temp + probability2["공격력 : +12%"]) { op3 = ("공격력 : +12%") }; temp += probability2["공격력 : +12%"];
+            if (temp <= c && c <= temp + probability2["마력 : +12%"]) { op3 = ("마력 : +12%") }; temp += probability2["마력 : +12%"];
+            if (temp <= c && c <= temp + probability2["크리티컬 확률 : +12%"]) { op3 = ("크리티컬 확률 : +12%") }; temp += probability2["크리티컬 확률 : +12%"];
+            if (temp <= c && c <= temp + probability2["데미지 : +12%"]) { op3 = ("데미지 : +12%") }; temp += probability2["데미지 : +12%"];
+            if (temp <= c && c <= temp + probability2["올스탯 : +9%"]) { op3 = ("올스탯 : +9%") }; temp += probability2["올스탯 : +9%"];
+            if (temp <= c && c <= temp + probability2["캐릭터 기준 10레벨 당 공격력 : +1"]) { op3 = ("캐릭터 기준 10레벨 당 공격력 : +1") }; temp += probability2["캐릭터 기준 10레벨 당 공격력 : +1"];
+            if (temp <= c && c <= temp + probability2["캐릭터 기준 10레벨 당 마력 : +1"]) { op3 = ("캐릭터 기준 10레벨 당 마력 : +1") }; temp += probability2["캐릭터 기준 10레벨 당 마력 : +1"];
+            if (temp <= c && c <= temp + probability2["몬스터 방어율 무시 : +35%"]) { op3 = ("몬스터 방어율 무시 : +35%") }; temp += probability2["몬스터 방어율 무시 : +35%"];
+            if (temp <= c && c <= temp + probability2["몬스터 방어율 무시 : +40%"]) { op3 = ("몬스터 방어율 무시 : +40%") }; temp += probability2["몬스터 방어율 무시 : +40%"];
+            if (temp <= c && c <= temp + probability2["보스 몬스터 공격 시 데미지 : +35%"]) { op3 = ("보스 몬스터 공격 시 데미지 : +35%") }; temp += probability2["보스 몬스터 공격 시 데미지 : +35%"];
+            if (temp <= c && c <= temp + probability2["보스 몬스터 공격 시 데미지 : +40%"]) { op3 = ("보스 몬스터 공격 시 데미지 : +40%") };
+            console.clear();
+            console.log(a);
+            console.log(b);
+            console.log(c);
+
+            cubemoney += 1650;
+            op4 = `니가 처 박은금액 : ${cubemoney}원`
+            op5 = "경익아 엄마는 너만 믿어 아들 공부 잘 하고있지?"
+            $("#option_content").empty();
+            $("#option_content").append(`<div>
+            <div class="option_section"  id="op1" style="width:500px;margin: 0 auto;position:absolute;left:24%;bottom:31%;font-size:1.7em;color: white">
+
+            </div>
+            <div class="option_section"  id="op2" style="width:500px;margin: 0 auto;position:absolute;left:24%;bottom:27%;font-size:1.7em;color: white">
+
+            </div>
+            <div class="option_section"  id="op3" style="width:500px;margin: 0 auto;position:absolute;left:24%;bottom:23%;font-size:1.7em;color: white">
+
+            </div>
+            <div class="option_section"  id="op4" style="width:500px;margin: 0 auto;position:absolute;left:24%;bottom:17%;font-size:2.0em;color: yellow">
+
+            </div>
+            <div class="option_section"  id="op5" style="width:500px;margin: 0 auto;position:absolute;left:24%;bottom:14%;font-size:1em;color: white">
+
+            </div>
+        </div>`);
+            $("#op1").html(op1);
+            $("#op2").html(op2);
+            $("#op3").html(op3);
+            $("#op4").html(op4);
+            $("#op5").html(op5);
+            console.log(cubemoney);
+        }
+        function reset(cubemoney) {
+            $("#option_content").empty();
+
+            cubemoney = 0;
+            op4 = `니가 처 박은금액 : ${cubemoney}원`
+            op5 = "엄마 다시 공부하러갈게요"
+            $("#option_content").append(`<div>
+           
+            <div class="option_section"  id="op4" style="width:500px;margin: 0 auto;position:absolute;left:24%;bottom:17%;font-size:2.0em;color: yellow">
+
+            </div>
+            <div class="option_section"  id="op5" style="width:500px;margin: 0 auto;position:absolute;left:24%;bottom:14%;font-size:1em">
+
+            </div>
+        </div>`);
+            $("#op4").html(op4);
+            $("#op5").html(op5);
+            return cubemoney
+        }
+    </script>
+</body>
+
+</html>
