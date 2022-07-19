@@ -114,7 +114,7 @@
         outline:none;
         -webkit-tap-highlight-color : rgba(0,0,0,0);">
         <div style="position:fixed;right:0;bottom:0;width:400px">
-            <h3>총합 데미지</h3>
+            <h3>총합 데미지<img src="../static/img/damage_skin/공용이미지/초기화.png" style="width:25px;height:25px;margin-left:10px;cursor:pointer" id="dmg_reset"></h3>
             <p id="total_damage" style="font-size:1.5em"></p>
         </div>
     </div>
@@ -198,6 +198,11 @@
             offcanvas_init();
             $("#damage_skin_btn_templete").attr("src", damage_skin_btn_templete);
             $("#offcanvasRight").offcanvas("hide");
+        })
+
+        $("#dmg_reset").click(function () {
+            total_damage = 0;
+            $("#total_damage").html(total_damage);
         })
 
         function max_damage_set(value) {
