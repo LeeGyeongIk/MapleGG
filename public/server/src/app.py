@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, url_for
 import maplegg
+import cube
 
 # Flask 객체 인스턴스 생성
 app = Flask(__name__)
@@ -32,6 +33,14 @@ def DB_test():
 @app.route("/damage_skin_simulator")
 def damage_skin_simulator():
     return render_template('damage_skin_simulator.html')
+
+@app.route("/cube_simulator", methods=['POST', 'GET'])
+def cube_simulator():
+    if request.method == 'POST':
+        data = cube.get_cube_probability_data(request.form['grade'],request.form['parts'],request.form['level'])
+        return render_template('cube_simulator.html', cube_probability=data)
+    else:
+        return render_template('cube_simulator.html')
 
 @app.route("/cube36")
 def cube36():
