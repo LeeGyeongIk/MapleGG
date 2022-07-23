@@ -73,10 +73,9 @@
             }
         }
     </style>
-    
+
     <form action="/cube_simulator" method="post">
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
-            aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div class="offcanvas-header">
                 <h5 id="offcanvasRightLabel">세팅</h5>
             </div>
@@ -86,11 +85,12 @@
                         <h4>무기 등급 선택</h4>
                         <br>
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="select_grade_btn"
-                            data-bs-toggle="dropdown" aria-expanded="false" style="width:100%">
+                            data-bs-toggle="dropdown" aria-expanded="false" style="width:100%;border:none">
                             무기 등급
                         </button>
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="select_grade" name="grade" style="display:none" required />
+                            <input type="text" class="form-control" id="select_grade" name="grade" style="display:none"
+                                required />
                         </div>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width:100%">
                             <li onclick="set_grade(1)"><a class="dropdown-item" href="#">레어</a></li>
@@ -106,33 +106,39 @@
                         <h4>장비 종류 선택</h4>
                         <br>
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="select_parts_btn"
-                            data-bs-toggle="dropdown" aria-expanded="false" style="width:100%">
+                            data-bs-toggle="dropdown" aria-expanded="false" style="width:100%;border:none">
                             장비 종류
                         </button>
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="select_parts_type" name="parts" style="display:none" required />
+                            <input type="text" class="form-control" id="select_parts_type" name="parts"
+                                style="display:none" required />
                         </div>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width:100%">
-                            <li onclick="$('#select_parts_type').val(1)"><a class="dropdown-item" href="#">무기</a></li>
-                            <li onclick="$('#select_parts_type').val(2)"><a class="dropdown-item" href="#">엠블렘</a></li>
-                            <li onclick="$('#select_parts_type').val(3)"><a class="dropdown-item" href="#">보조무기(포스실드,소울링제외)</a></li>
-                            <li onclick="$('#select_parts_type').val(4)"><a class="dropdown-item" href="#">포스실드, 소울링</a></li>
-                            <li onclick="$('#select_parts_type').val(5)"><a class="dropdown-item" href="#">방패</a></li>
-                            <li onclick="$('#select_parts_type').val(6)"><a class="dropdown-item" href="#">모자</a></li>
-                            <li onclick="$('#select_parts_type').val(7)"><a class="dropdown-item" href="#">상의</a></li>
-                            <li onclick="$('#select_parts_type').val(8)"><a class="dropdown-item" href="#">한벌옷</a></li>
-                            <li onclick="$('#select_parts_type').val(9)"><a class="dropdown-item" href="#">하의</a></li>
-                            <li onclick="$('#select_parts_type').val(10)"><a class="dropdown-item" href="#">신발</a></li>
-                            <li onclick="$('#select_parts_type').val(11)"><a class="dropdown-item" href="#">장갑</a></li>
-                            <li onclick="$('#select_parts_type').val(12)"><a class="dropdown-item" href="#">망토</a></li>
-                            <li onclick="$('#select_parts_type').val(13)"><a class="dropdown-item" href="#">벨트</a></li>
-                            <li onclick="$('#select_parts_type').val(14)"><a class="dropdown-item" href="#">어깨장식</a></li>
-                            <li onclick="$('#select_parts_type').val(15)"><a class="dropdown-item" href="#">얼굴장식</a></li>
-                            <li onclick="$('#select_parts_type').val(16)"><a class="dropdown-item" href="#">눈장식</a></li>
-                            <li onclick="$('#select_parts_type').val(17)"><a class="dropdown-item" href="#">귀고리</a></li>
-                            <li onclick="$('#select_parts_type').val(18)"><a class="dropdown-item" href="#">반지</a></li>
-                            <li onclick="$('#select_parts_type').val(19)"><a class="dropdown-item" href="#">펜던트</a></li>
-                            <li onclick="$('#select_parts_type').val(20)"><a class="dropdown-item" href="#">기계심장</a></li>
+                            <li onclick="set_parts(1)"><a class="dropdown-item" href="#">무기</a></li>
+                            <li onclick="set_parts(2)"><a class="dropdown-item" href="#">엠블렘</a></li>
+                            <li onclick="set_parts(3)"><a class="dropdown-item"
+                                    href="#">보조무기(포스실드,소울링제외)</a></li>
+                            <li onclick="set_parts(4)"><a class="dropdown-item" href="#">포스실드, 소울링</a>
+                            </li>
+                            <li onclick="set_parts(5)"><a class="dropdown-item" href="#">방패</a></li>
+                            <li onclick="set_parts(6)"><a class="dropdown-item" href="#">모자</a></li>
+                            <li onclick="set_parts(7)"><a class="dropdown-item" href="#">상의</a></li>
+                            <li onclick="set_parts(8)"><a class="dropdown-item" href="#">한벌옷</a></li>
+                            <li onclick="set_parts(9)"><a class="dropdown-item" href="#">하의</a></li>
+                            <li onclick="set_parts(10)"><a class="dropdown-item" href="#">신발</a></li>
+                            <li onclick="set_parts(11)"><a class="dropdown-item" href="#">장갑</a></li>
+                            <li onclick="set_parts(12)"><a class="dropdown-item" href="#">망토</a></li>
+                            <li onclick="set_parts(13)"><a class="dropdown-item" href="#">벨트</a></li>
+                            <li onclick="set_parts(14)"><a class="dropdown-item" href="#">어깨장식</a>
+                            </li>
+                            <li onclick="set_parts(15)"><a class="dropdown-item" href="#">얼굴장식</a>
+                            </li>
+                            <li onclick="set_parts(16)"><a class="dropdown-item" href="#">눈장식</a></li>
+                            <li onclick="set_parts(17)"><a class="dropdown-item" href="#">귀고리</a></li>
+                            <li onclick="set_parts(18)"><a class="dropdown-item" href="#">반지</a></li>
+                            <li onclick="set_parts(19)"><a class="dropdown-item" href="#">펜던트</a></li>
+                            <li onclick="set_parts(20)"><a class="dropdown-item" href="#">기계심장</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -142,7 +148,8 @@
                     <br>
                     <div class="mb-3">
                         <label for="max_damage" class="form-label">장비 레벨을 0 ~ 250 사이 숫자로 입력</label>
-                        <input type="number" class="form-control" id="level" placeholder="0 ~ 250까지의 레벨 입력" name="level" required />
+                        <input type="number" class="form-control" id="level" placeholder="0 ~ 250까지의 레벨 입력" name="level"
+                            required />
                     </div>
                 </div>
                 <br>
@@ -251,12 +258,27 @@
         }
 
         function set_grade(select) {
+            switch (select) {
+                case 1:
+                    $("#select_grade_btn").css("background-color", "blue");
+                    break;
+                case 2:
+                    $("#select_grade_btn").css("background-color", "purple");
+                    break;
+                case 3:
+                    $("#select_grade_btn").css("background-color", "gold");
+                    break;
+                case 4:
+                    $("#select_grade_btn").css("background-color", "green");
+                    break;
+            }
+
             $('#select_grade').val(select);
-            $("#select_grade_btn").css("background-color", "green");
         }
 
         function set_parts(select) {
             $('#select_parts_type').val(select)
+            $('#select_parts_btn').html("선택완료");
         }
     </script>
 
