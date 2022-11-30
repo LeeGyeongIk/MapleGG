@@ -26,14 +26,9 @@ app.get('/getNotice', function (req, res) {
 
         const rowData = JSON.parse(data);
         res.send(rowData);
-
-        // rowData.test.push({ "test5": 5 });
-        // fs.writeFileSync('./data.json', JSON.stringify(user));
     });
 });
 
 app.post('/sendSMS', (req, res) => {
     sms(req.body.phone, req.body.content);
 })
-
-// sms("01037225398");

@@ -1,0 +1,8 @@
+>git remote add origin https://github.com/LeeGyeongIk/MapleGG.git
+깃허브 프로젝트랑 연결
+
+>git pull origin master
+파일 땡겨오기
+
+>
+index.html
